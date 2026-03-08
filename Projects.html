@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Projects — Daniel Steven Sawaya</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="logo" href="index.html">D S</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="music.html">Music</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="projects">
+      <h1>Projects</h1>
+      <div class="filter">
+        <button data-filter="all" class="active">All</button>
+        <button data-filter="music">Music</button>
+        <button data-filter="code">Code</button>
+      </div>
+
+      <div class="grid" id="projects-grid">
+        <div class="project-card" data-type="music">
+          <img class="thumb" src="assets/thumb1.webp" alt="Project One" data-full="assets/thumb1.webp">
+          <h3>Project One</h3>
+          <p>Short description placeholder.</p>
+        </div>
+
+        <div class="project-card" data-type="code">
+          <img class="thumb" src="assets/thumb2.webp" alt="Project Two" data-full="assets/thumb2.webp">
+          <h3>Project Two</h3>
+          <p>Short description placeholder.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="hidden" aria-hidden="true">
+    <button id="lb-close">×</button>
+    <img id="lb-img" src="" alt="">
+    <p id="lb-caption"></p>
+  </div>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year4"></span> Daniel Steven Sawaya</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
