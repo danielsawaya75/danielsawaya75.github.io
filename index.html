@@ -2,176 +2,156 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WALKER NO209087 | INTERFACE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>WALKER NO209087 | DIGITAL ARCHIVE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
-            --neon-blue: #00f2ff;
-            --dark-bg: #020202;
-            --border: rgba(0, 242, 255, 0.2);
+            --neon: #00f2ff;
+            --bg: #050505;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
 
         body {
-            background-color: var(--dark-bg);
+            background-color: var(--bg);
             color: #fff;
-            font-family: 'Rajdhani', sans-serif;
+            font-family: 'Share Tech Mono', monospace;
             overflow-x: hidden;
-            background: radial-gradient(circle, #0a0a0a 0%, #000 100%);
+            margin: 0;
         }
 
-        /* 1. GLOBAL SCANNER (Mstari unaopita screen nzima) */
-        .global-scanner {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 3px;
-            background: linear-gradient(to right, transparent, var(--neon-blue), transparent);
-            box-shadow: 0 0 15px var(--neon-blue);
-            z-index: 1000;
-            pointer-events: none;
-            opacity: 0.5;
-            animation: global-scan 5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        @keyframes global-scan {
-            0% { top: -5%; }
-            100% { top: 105%; }
-        }
-
-        /* 2. CORNER BRACKETS (Zile alama za pembeni) */
-        .corners::before, .corners::after {
-            content: '';
-            position: fixed;
-            width: 30px; height: 30px;
-            border: 2px solid var(--neon-blue);
-            z-index: 1001;
-            pointer-events: none;
-        }
-        .top-left { top: 20px; left: 20px; border-right: 0; border-bottom: 0; }
-        .bottom-right { bottom: 20px; right: 20px; border-left: 0; border-top: 0; }
-
-        /* 3. MOVING GRID BACKGROUND */
-        .grid-bg {
+        /* 1. ANIMATED HEXAGON BACKGROUND */
+        .hex-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(var(--border) 1px, transparent 1px),
-                              linear-gradient(90deg, var(--border) 1px, transparent 1px);
-            background-size: 40px 40px;
+            background: 
+                radial-gradient(circle at center, transparent 0%, var(--bg) 90%),
+                url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            opacity: 0.3;
             z-index: -1;
-            opacity: 0.15;
-            animation: grid-scroll 30s linear infinite;
         }
 
-        @keyframes grid-scroll {
-            from { background-position: 0 0; }
-            to { background-position: 0 1000px; }
+        /* 2. SCANNING LINE (Mstari unaotembea) */
+        .scanner-line {
+            position: fixed;
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 242, 255, 0.5);
+            box-shadow: 0 0 15px var(--neon);
+            animation: scanMove 4s infinite linear;
+            z-index: 100;
+        }
+
+        @keyframes scanMove {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .interface-wrapper {
+            padding: 50px;
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
         header {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+            border-bottom: 1px solid var(--neon);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
         }
 
-        .walker-id {
+        .title-glitch {
             font-family: 'Orbitron', sans-serif;
-            font-size: 4rem;
-            letter-spacing: 15px;
-            color: var(--neon-blue);
-            text-shadow: 0 0 20px var(--neon-blue);
-            animation: flicker 4s infinite;
+            font-size: 3rem;
+            color: var(--neon);
+            text-transform: uppercase;
+            letter-spacing: 5px;
         }
 
-        @keyframes flicker {
-            0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
-            20%, 24%, 55% { opacity: 0.3; }
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 50px 20px;
-        }
-
-        /* 4. ACTIVE DATA CARDS */
-        .card {
-            background: rgba(255, 255, 255, 0.03);
-            border-left: 4px solid var(--neon-blue);
-            margin-bottom: 30px;
-            padding: 30px;
-            position: relative;
+        /* 3. TYPEWRITER EFFECT */
+        .typing-text {
             overflow: hidden;
-            transition: 0.4s;
+            border-right: .15em solid var(--neon);
+            white-space: nowrap;
+            letter-spacing: .15em;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
         }
 
-        .card:hover {
-            background: rgba(0, 242, 255, 0.08);
-            transform: translateX(10px);
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
         }
 
-        /* Card Scan Effect */
-        .card::after {
-            content: '';
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--neon); }
+        }
+
+        .cv-card {
+            background: rgba(0, 242, 255, 0.05);
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            padding: 20px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .cv-card::before {
+            content: "DECODING_FILE...";
             position: absolute;
-            top: 0; left: -100%;
-            width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(0, 242, 255, 0.1), transparent);
-            animation: card-swipe 3s infinite;
+            top: -10px; right: 10px;
+            font-size: 0.7rem;
+            background: var(--bg);
+            padding: 0 5px;
+            color: var(--neon);
         }
 
-        @keyframes card-swipe {
-            0% { left: -100%; }
-            100% { left: 150%; }
-        }
-
-        .data-stream {
-            font-family: monospace;
-            font-size: 0.8rem;
-            color: var(--neon-blue);
-            opacity: 0.5;
-            margin-bottom: 10px;
+        .skill-tag {
+            display: inline-block;
+            background: rgba(0, 242, 255, 0.1);
+            color: var(--neon);
+            padding: 5px 10px;
+            margin: 5px;
+            font-size: 0.9rem;
+            border: 1px solid var(--neon);
         }
     </style>
 </head>
 <body>
 
-    <div class="global-scanner"></div>
-    <div class="grid-bg"></div>
-    <div class="corners top-left"></div>
-    <div class="corners bottom-right"></div>
+    <div class="scanner-line"></div>
+    <div class="hex-bg"></div>
 
-    <header>
-        <div class="data-stream">>> INITIALIZING SYSTEM... DONE</div>
-        <h1 class="walker-id">WALKER</h1>
-        <div style="border: 1px solid var(--neon-blue); padding: 5px 20px; margin-top: 10px;">
-            OPERATOR NO: 209087
-        </div>
-    </header>
+    <div class="interface-wrapper">
+        <header>
+            <div class="title-glitch">DANIEL SAWAYA</div>
+            <p class="typing-text">SYSTEM OPERATOR // WALKER NO209087</p>
+        </header>
 
-    <div class="container">
-        <div class="card">
-            <div class="data-stream">LOC: ARUSHA_TECH_COLLEGE // LVL_4</div>
-            <h2 style="margin-bottom: 10px;">PROTOCOL: IT_SPECIALIST</h2>
-            <p>Focusing on Python, Networking (IPv4/VLSM), and Hardware Engineering. 
-               Building the future of Health-Tech AI.</p>
-        </div>
+        <main>
+            <section class="cv-card">
+                <h3 style="color: var(--neon)">> SUMMARY</h3>
+                <p>IT student with hands-on experience in coding, troubleshooting, and robotics. 
+                   Passionate about developing innovative solutions and health-tech AI.</p>
+            </section>
 
-        <div class="card">
-            <div class="data-stream">DEPLOYMENT: E3EMPOWER // DEC_2024</div>
-            <h2 style="margin-bottom: 10px;">ACTIVE PROJECTS</h2>
-            <p>> Smart Temp Alert System<br>
-               > Gas Detector Module<br>
-               > World of Walker Web UI</p>
-        </div>
+            <section class="cv-card">
+                <h3 style="color: var(--neon)">> CORE_SKILLS</h3>
+                <div class="skill-tag">Python</div>
+                <div class="skill-tag">Arduino & Robotics</div>
+                <div class="skill-tag">Networking (IPv4/VLSM)</div>
+                <div class="skill-tag">Adobe Photoshop</div>
+                <div class="skill-tag">JavaScript</div>
+            </section>
+
+            <section class="cv-card">
+                <h3 style="color: var(--neon)">> DEPLOYMENT_HISTORY (EDUCATION)</h3>
+                <p><strong>Arusha Technical College</strong> | Level 4 Diploma in IT</p>
+                <p><strong>e3empower Africa</strong> | Python & Robotics Certification</p>
+                <p><strong>Kaloleni Secondary</strong> | NECTA CSEE 2024</p>
+            </section>
+        </main>
+
+        <footer style="margin-top: 50px; opacity: 0.5; font-size: 0.8rem;">
+            ACCESSING_LOCAL_STORAGE: Arusha-Tanzania // END_OF_FILE
+        </footer>
     </div>
-
-    <footer style="text-align: center; padding: 40px; color: #444; letter-spacing: 5px; font-size: 0.7rem;">
-        CONNECTED TO THE WORLD OF WALKER // STAY BRAVE
-    </footer>
 
 </body>
 </html>
