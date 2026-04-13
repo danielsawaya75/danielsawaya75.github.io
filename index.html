@@ -1,298 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Daniel Sawaya — From Arusha to the World of AI</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPERATOR | System Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-blue: #00f2ff;
+            --dark-bg: #050505;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(0, 242, 255, 0.2);
+        }
 
-    :root {
-      --bg: #0a0a0a;
-      --accent: #00f0ff;
-      --purple: #6b00ff;
-      --text: #ffffff;
-      --gray: #aaaaaa;
-    }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+        body {
+            background-color: var(--dark-bg);
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 50%, #111 0%, #000 100%);
+        }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Roboto', system-ui, sans-serif;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+        /* Scanline Effect */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 9999;
+            pointer-events: none;
+            background-size: 100% 4px, 3px 100%;
+        }
 
-    /* Subtle noise overlay */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" /><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/></filter><rect width="100%" height="100%" filter="url(%23n)"/></svg>') repeat;
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.08;
-    }
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
 
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(0,240,255,0.15);
-      padding: 1rem 2rem;
-    }
+        .glitch {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            color: var(--neon-blue);
+            text-shadow: 0 0 20px rgba(0, 242, 255, 0.5);
+        }
 
-    nav {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+        .status-bar {
+            font-size: 1.2rem;
+            color: #888;
+            margin-top: 10px;
+            letter-spacing: 3px;
+        }
 
-    .logo {
-      font-size: 1.8rem;
-      font-weight: 900;
-      letter-spacing: -2px;
-      color: var(--accent);
-    }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 100px 20px;
+        }
 
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      margin-left: 2rem;
-      font-weight: 700;
-      transition: color 0.3s;
-    }
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            border-left: 4px solid var(--neon-blue);
+            padding-left: 15px;
+            text-transform: uppercase;
+        }
 
-    .nav-links a:hover {
-      color: var(--accent);
-    }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
 
-    main {
-      padding-top: 120px;
-    }
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 30px;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .story-block {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 6rem 2rem;
-      opacity: 0;
-      transform: translateY(80px);
-      transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1);
-    }
+        .card:hover {
+            background: rgba(0, 242, 255, 0.05);
+            border-color: var(--neon-blue);
+            transform: translateY(-5px);
+        }
 
-    .story-block.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+        .card h3 {
+            color: var(--neon-blue);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
 
-    .content {
-      max-width: 1200px;
-      margin: 0 auto;
-      width: 100%;
-    }
+        .tag {
+            font-size: 0.8rem;
+            background: rgba(0, 242, 255, 0.1);
+            color: var(--neon-blue);
+            padding: 4px 10px;
+            margin-right: 5px;
+            border-radius: 2px;
+        }
 
-    h1 {
-      font-size: clamp(3.5rem, 8vw, 7rem);
-      font-weight: 900;
-      letter-spacing: -0.04em;
-      line-height: 0.9;
-      margin-bottom: 2rem;
-      color: white;
-    }
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
 
-    p {
-      font-size: clamp(1.25rem, 3vw, 1.8rem);
-      max-width: 900px;
-      opacity: 0.9;
-    }
+        .skill-item {
+            border: 1px solid #444;
+            padding: 10px 20px;
+            width: calc(50% - 10px);
+        }
 
-    .sideways p {
-      transform: translateX(-80px);
-      transition: transform 1.4s cubic-bezier(0.23,1,0.32,1);
-    }
-
-    .story-block.visible .sideways p {
-      transform: translateX(0);
-    }
-
-    .letter {
-      display: inline-block;
-      opacity: 0;
-      transform: translateX(-40px);
-      transition: all 0.8s ease-out;
-    }
-
-    .visible .letter {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .accent {
-      color: var(--accent);
-      font-weight: 900;
-    }
-
-    .gradient-bg {
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a0033 100%);
-    }
-
-    .center-text {
-      text-align: center;
-    }
-
-    footer {
-      text-align: center;
-      padding: 4rem 2rem;
-      color: var(--gray);
-      font-size: 1.1rem;
-      border-top: 1px solid rgba(0,240,255,0.1);
-    }
-
-    @media (max-width: 768px) {
-      h1 { font-size: clamp(3rem, 10vw, 5rem); }
-      p   { font-size: 1.3rem; }
-      .story-block { padding: 4rem 1.5rem; min-height: auto; }
-    }
-  </style>
+        footer {
+            text-align: center;
+            padding: 50px;
+            font-size: 0.8rem;
+            color: #444;
+            letter-spacing: 2px;
+        }
+    </style>
 </head>
 <body>
 
-  <header>
-    <nav>
-      <div class="logo">DANIEL SAWAYA</div>
-      <div class="nav-links">
-        <a href="#inspire">INSPIRE</a>
-        <a href="#">PROJECTS</a>
-        <a href="#">CONTACT</a>
-      </div>
-    </nav>
-  </header>
+    <header>
+        <div class="glitch">DANIEL SAWAYA</div>
+        <div class="status-bar">SYSTEM STATUS: <span style="color: #0f0;">ONLINE</span> // ATC_OPERATOR_04</div>
+    </header>
 
-  <main>
+    <div class="container">
+        <section>
+            <h2 class="section-title">Terminal Initialization</h2>
+            <p style="font-size: 1.3rem; line-height: 1.6; color: #ccc;">
+                Based at Arusha Technical College, specializing in Network Infrastructure and Software Development. 
+                Focusing on the intersection of automated systems and clean, functional code. 
+                Building digital environments from the hardware level up to the interface.
+            </p>
+        </section>
 
-    <!-- 1. BEGINNINGS -->
-    <section class="story-block">
-      <div class="content">
-        <h1>BEGINNINGS</h1>
-        <p>
-          Daniel Steven Sawaya alizaliwa tarehe 25 Agosti 2007 katika Mount Meru Hospital, Arusha.<br><br>
-          Alikulia katika familia ya Kikristo ya Jehovah's Witnesses — wazazi wake ni Steven Sawaya na Martha Sawaya, 
-          na ana dada watatu: Vanessa, Lisa, na Gift.<br><br>
-          Nyimbo za kiroho za JW zilimfariji, lakini moyo wake tayari ulikuwa umeunganishwa na kompyuta na nambari.
-        </p>
-      </div>
-    </section>
+        <section style="margin-top: 100px;">
+            <h2 class="section-title">Active Deployments (Projects)</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Smart Temperature Alert</h3>
+                    <p>Automated monitoring system utilizing NTC thermistors and transistor logic for real-time environmental alerts.</p>
+                    <div style="margin-top: 15px;">
+                        <span class="tag">Electronics</span> <span class="tag">Hardware</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Gas Detection Array</h3>
+                    <p>Safety-focused sensor integration for hazardous environment monitoring and system response.</p>
+                    <div style="margin-top: 15px;">
+                        <span class="tag">Sensors</span> <span class="tag">Arduino</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Network Architecture</h3>
+                    <p>Specialized in IPv4 subnetting, VLSM calculations, and scalable network topology design.</p>
+                    <div style="margin-top: 15px;">
+                        <span class="tag">Networking</span> <span class="tag">Infrastructure</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <!-- 2. THE JOURNEY -->
-    <section class="story-block gradient-bg">
-      <div class="content">
-        <h1>THE JOURNEY</h1>
-        <p>
-          Makumbusho Primary School → Kaloleni Secondary School.<br><br>
-          Mwaka 2024 alifanya mtihani wa CSEE na kupata Division Three.<br><br>
-          Lakini alipenda zaidi <span class="accent">ICT</span> kuliko masomo mengine yote — hamu ya kujua jinsi kompyuta zinavyofanya kazi.<br><br>
-          December 2024 alianza Python bootcamp kwa e3empower: fundamentals, algorithms, robotics basics, machine learning concepts, na Scratch game development.
-        </p>
-      </div>
-    </section>
+        <section style="margin-top: 100px;">
+            <h2 class="section-title">Tech Stack // Protocol</h2>
+            <div class="skills-list">
+                <div class="skill-item"><strong>PROGRAMMING:</strong> Python / JavaScript / HTML / CSS</div>
+                <div class="skill-item"><strong>NETWORKING:</strong> Subnetting / Routing / Switching</div>
+                <div class="skill-item"><strong>HARDWARE:</strong> Arduino / Sensor Integration</div>
+                <div class="skill-item"><strong>CREATIVE:</strong> System Design / Music Production</div>
+            </div>
+        </section>
+    </div>
 
-    <!-- 3. YOU ARE NOT ALONE -->
-    <section class="story-block center-text">
-      <div class="content">
-        <h1>YOU ARE NOT ALONE</h1>
-        <p style="font-style: italic; font-size: 2rem; margin: 2rem 0;">
-          “Stranger in Moscow” ya Michael Jackson humfariji wakati wa upweke...
-        </p>
-        <p>
-          Lakini Alan Walker anamkumbusha kuwa <span class="accent">"creativity inspires creativity"</span>.<br><br>
-          Michezo ya football kwenye PlayStation, kusikiliza muziki, na kujadili teknolojia — ndiyo zilimpa nguvu ya kuendelea coding usiku kucha.
-        </p>
-      </div>
-    </section>
-
-    <!-- 4. INSPIRE TO CREATE (strong sideways + letter animation) -->
-    <section id="inspire" class="story-block gradient-bg">
-      <div class="content">
-        <h1>
-          <span class="letter" style="transition-delay: 0.00s;">I</span>
-          <span class="letter" style="transition-delay: 0.03s;">N</span>
-          <span class="letter" style="transition-delay: 0.06s;">S</span>
-          <span class="letter" style="transition-delay: 0.09s;">P</span>
-          <span class="letter" style="transition-delay: 0.12s;">I</span>
-          <span class="letter" style="transition-delay: 0.15s;">R</span>
-          <span class="letter" style="transition-delay: 0.18s;">E</span>
-          <span class="letter" style="transition-delay: 0.21s;"> </span>
-          <span class="letter" style="transition-delay: 0.24s;">T</span>
-          <span class="letter" style="transition-delay: 0.27s;">O</span>
-          <span class="letter" style="transition-delay: 0.30s;"> </span>
-          <span class="letter" style="transition-delay: 0.33s;">C</span>
-          <span class="letter" style="transition-delay: 0.36s;">R</span>
-          <span class="letter" style="transition-delay: 0.39s;">E</span>
-          <span class="letter" style="transition-delay: 0.42s;">A</span>
-          <span class="letter" style="transition-delay: 0.45s;">T</span>
-          <span class="letter" style="transition-delay: 0.48s;">E</span>
-        </h1>
-        <div class="sideways">
-          <p>
-            Sasa lengo lake ni wazi: kujenga <span class="accent">Artificial Intelligence</span> yake mwenyewe.<br><br>
-            Anataka kutengeneza application kwa Android na Windows, kuunda timu ya vijana wa IT Arusha, 
-            na kuchanganya technology, creativity, na innovation.
-          </p>
-          <p style="margin-top: 2rem;">
-            Ili siku moja teknolojia yake isaidie elimu na huduma za afya kwa watu wa kila siku — 
-            <span class="accent">from Arusha to the world of AI.</span>
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 5. FROM BEDROOM TO THE WORLD -->
-    <section class="story-block center-text">
-      <div class="content">
-        <h1>FROM BEDROOM TO THE WORLD</h1>
-        <p style="font-size: 2.2rem; max-width: 1000px; margin: 0 auto 3rem;">
-          Daniel ana ndoto kubwa: kuwa developer anayebuni maisha bora kwa watu.<br><br>
-          AI systems, apps, na timu ya vijana — yote yanatoka kwenye chumba kidogo Arusha hadi dunia nzima.
-        </p>
-        <p style="font-size: 3rem; font-weight: 900; color: var(--accent);">
-          The journey is just beginning.
-        </p>
-      </div>
-    </section>
-
-  </main>
-
-  <footer>
-    © 2026 Daniel Steven Sawaya • Arusha, Tanzania
-  </footer>
-
-  <script>
-    // Simple Intersection Observer for reveal animations
-    const blocks = document.querySelectorAll('.story-block');
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.15 });
-
-    blocks.forEach(block => observer.observe(block));
-  </script>
+    <footer>
+        DESIGNED FOR THE WORLD OF WALKER AESTHETIC // 2026
+    </footer>
 
 </body>
 </html>
