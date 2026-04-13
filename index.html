@@ -3,37 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OPERATOR | System Portfolio</title>
+    <title>WALKER NO209087 | INTERFACE</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --neon-blue: #00f2ff;
-            --dark-bg: #050505;
-            --glass: rgba(255, 255, 255, 0.03);
+            --dark-bg: #020202;
             --border: rgba(0, 242, 255, 0.2);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
 
         body {
             background-color: var(--dark-bg);
             color: #fff;
             font-family: 'Rajdhani', sans-serif;
             overflow-x: hidden;
-            background-image: radial-gradient(circle at 50% 50%, #111 0%, #000 100%);
+            background: radial-gradient(circle, #0a0a0a 0%, #000 100%);
         }
 
-        /* Scanline Effect */
-        body::before {
-            content: " ";
-            display: block;
+        /* 1. GLOBAL SCANNER (Mstari unaopita screen nzima) */
+        .global-scanner {
             position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 9999;
+            top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(to right, transparent, var(--neon-blue), transparent);
+            box-shadow: 0 0 15px var(--neon-blue);
+            z-index: 1000;
             pointer-events: none;
-            background-size: 100% 4px, 3px 100%;
+            opacity: 0.5;
+            animation: global-scan 5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes global-scan {
+            0% { top: -5%; }
+            100% { top: 105%; }
+        }
+
+        /* 2. CORNER BRACKETS (Zile alama za pembeni) */
+        .corners::before, .corners::after {
+            content: '';
+            position: fixed;
+            width: 30px; height: 30px;
+            border: 2px solid var(--neon-blue);
+            z-index: 1001;
+            pointer-events: none;
+        }
+        .top-left { top: 20px; left: 20px; border-right: 0; border-bottom: 0; }
+        .bottom-right { bottom: 20px; right: 20px; border-left: 0; border-top: 0; }
+
+        /* 3. MOVING GRID BACKGROUND */
+        .grid-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(var(--border) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            opacity: 0.15;
+            animation: grid-scroll 30s linear infinite;
+        }
+
+        @keyframes grid-scroll {
+            from { background-position: 0 0; }
+            to { background-position: 0 1000px; }
         }
 
         header {
@@ -43,155 +75,102 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            border-bottom: 1px solid var(--border);
         }
 
-        .glitch {
+        .walker-id {
             font-family: 'Orbitron', sans-serif;
             font-size: 4rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 10px;
+            letter-spacing: 15px;
             color: var(--neon-blue);
-            text-shadow: 0 0 20px rgba(0, 242, 255, 0.5);
+            text-shadow: 0 0 20px var(--neon-blue);
+            animation: flicker 4s infinite;
         }
 
-        .status-bar {
-            font-size: 1.2rem;
-            color: #888;
-            margin-top: 10px;
-            letter-spacing: 3px;
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
+            20%, 24%, 55% { opacity: 0.3; }
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 100px 20px;
+            padding: 50px 20px;
         }
 
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            margin-bottom: 40px;
-            border-left: 4px solid var(--neon-blue);
-            padding-left: 15px;
-            text-transform: uppercase;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
+        /* 4. ACTIVE DATA CARDS */
         .card {
-            background: var(--glass);
-            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 4px solid var(--neon-blue);
+            margin-bottom: 30px;
             padding: 30px;
-            transition: 0.3s;
             position: relative;
             overflow: hidden;
+            transition: 0.4s;
         }
 
         .card:hover {
-            background: rgba(0, 242, 255, 0.05);
-            border-color: var(--neon-blue);
-            transform: translateY(-5px);
+            background: rgba(0, 242, 255, 0.08);
+            transform: translateX(10px);
         }
 
-        .card h3 {
-            color: var(--neon-blue);
-            margin-bottom: 15px;
-            text-transform: uppercase;
+        /* Card Scan Effect */
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(0, 242, 255, 0.1), transparent);
+            animation: card-swipe 3s infinite;
         }
 
-        .tag {
+        @keyframes card-swipe {
+            0% { left: -100%; }
+            100% { left: 150%; }
+        }
+
+        .data-stream {
+            font-family: monospace;
             font-size: 0.8rem;
-            background: rgba(0, 242, 255, 0.1);
             color: var(--neon-blue);
-            padding: 4px 10px;
-            margin-right: 5px;
-            border-radius: 2px;
-        }
-
-        .skills-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .skill-item {
-            border: 1px solid #444;
-            padding: 10px 20px;
-            width: calc(50% - 10px);
-        }
-
-        footer {
-            text-align: center;
-            padding: 50px;
-            font-size: 0.8rem;
-            color: #444;
-            letter-spacing: 2px;
+            opacity: 0.5;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
 
+    <div class="global-scanner"></div>
+    <div class="grid-bg"></div>
+    <div class="corners top-left"></div>
+    <div class="corners bottom-right"></div>
+
     <header>
-        <div class="glitch">DANIEL SAWAYA</div>
-        <div class="status-bar">SYSTEM STATUS: <span style="color: #0f0;">ONLINE</span> // ATC_OPERATOR_04</div>
+        <div class="data-stream">>> INITIALIZING SYSTEM... DONE</div>
+        <h1 class="walker-id">WALKER</h1>
+        <div style="border: 1px solid var(--neon-blue); padding: 5px 20px; margin-top: 10px;">
+            OPERATOR NO: 209087
+        </div>
     </header>
 
     <div class="container">
-        <section>
-            <h2 class="section-title">Terminal Initialization</h2>
-            <p style="font-size: 1.3rem; line-height: 1.6; color: #ccc;">
-                Based at Arusha Technical College, specializing in Network Infrastructure and Software Development. 
-                Focusing on the intersection of automated systems and clean, functional code. 
-                Building digital environments from the hardware level up to the interface.
-            </p>
-        </section>
+        <div class="card">
+            <div class="data-stream">LOC: ARUSHA_TECH_COLLEGE // LVL_4</div>
+            <h2 style="margin-bottom: 10px;">PROTOCOL: IT_SPECIALIST</h2>
+            <p>Focusing on Python, Networking (IPv4/VLSM), and Hardware Engineering. 
+               Building the future of Health-Tech AI.</p>
+        </div>
 
-        <section style="margin-top: 100px;">
-            <h2 class="section-title">Active Deployments (Projects)</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>Smart Temperature Alert</h3>
-                    <p>Automated monitoring system utilizing NTC thermistors and transistor logic for real-time environmental alerts.</p>
-                    <div style="margin-top: 15px;">
-                        <span class="tag">Electronics</span> <span class="tag">Hardware</span>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3>Gas Detection Array</h3>
-                    <p>Safety-focused sensor integration for hazardous environment monitoring and system response.</p>
-                    <div style="margin-top: 15px;">
-                        <span class="tag">Sensors</span> <span class="tag">Arduino</span>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3>Network Architecture</h3>
-                    <p>Specialized in IPv4 subnetting, VLSM calculations, and scalable network topology design.</p>
-                    <div style="margin-top: 15px;">
-                        <span class="tag">Networking</span> <span class="tag">Infrastructure</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section style="margin-top: 100px;">
-            <h2 class="section-title">Tech Stack // Protocol</h2>
-            <div class="skills-list">
-                <div class="skill-item"><strong>PROGRAMMING:</strong> Python / JavaScript / HTML / CSS</div>
-                <div class="skill-item"><strong>NETWORKING:</strong> Subnetting / Routing / Switching</div>
-                <div class="skill-item"><strong>HARDWARE:</strong> Arduino / Sensor Integration</div>
-                <div class="skill-item"><strong>CREATIVE:</strong> System Design / Music Production</div>
-            </div>
-        </section>
+        <div class="card">
+            <div class="data-stream">DEPLOYMENT: E3EMPOWER // DEC_2024</div>
+            <h2 style="margin-bottom: 10px;">ACTIVE PROJECTS</h2>
+            <p>> Smart Temp Alert System<br>
+               > Gas Detector Module<br>
+               > World of Walker Web UI</p>
+        </div>
     </div>
 
-    <footer>
-        DESIGNED FOR THE WORLD OF WALKER AESTHETIC // 2026
+    <footer style="text-align: center; padding: 40px; color: #444; letter-spacing: 5px; font-size: 0.7rem;">
+        CONNECTED TO THE WORLD OF WALKER // STAY BRAVE
     </footer>
 
 </body>
